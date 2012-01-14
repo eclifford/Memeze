@@ -1,0 +1,10 @@
+div#posts
+
+script
+	var postList = new App.Collections.Posts();
+	var postListView = new App.Views.PostListView({
+		el: 'div#posts',
+		collection: postList
+	});
+	postList.fetch();
+

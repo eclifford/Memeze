@@ -1,0 +1,15 @@
+form(action='/posts/new', method='POST')
+	p
+		label(for='post_title') Title
+	p
+		input(type='text', name='post[title]', value='', style='width: 600px')
+	p
+		label(for'post_tags') Tags
+	p
+		input(type='text', id='tags', name='post[tags]', value='', style='width: 600px')
+	p
+		label(for='post_body') Body
+	p
+		textarea(rows='10', name='post[body]', value='', style='width: 600px')
+	p
+		input(type='submit')
