@@ -1,7 +1,10 @@
 (function() {
-  window.Tag = Backbone.Model.extend({});
-  window.TagList = Backbone.Collection.extend({
-    model: Tag,
-    url: "/tags"
+
+  App.Models.Tag = Backbone.Model.extend();
+
+  App.Collections.Tags = Backbone.Collection.extend({
+    model: App.Models.Tag,
+    url: "/api/v1/tags"
   });
+
 }).call(this);

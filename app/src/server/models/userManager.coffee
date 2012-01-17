@@ -49,6 +49,11 @@ class UserManager
 		query = @User.findById(id, (err, user) ->
 			callback null, user
 		) 
+
+	getUserTags: (user, callback) ->
+		query = @User.findById(user._id, (err, user) ->
+			callback null, user.tags
+		).populate('tags')
 			
 module.exports.create = ->
 	return new UserManager()

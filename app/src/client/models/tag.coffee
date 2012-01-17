@@ -1,6 +1,6 @@
-window.Tag = Backbone.Model.extend({})
+App.Models.Tag = Backbone.Model.extend()
 
-window.TagList = Backbone.Collection.extend(
-  model: Tag
-  url: "/tags"
+App.Collections.Tags = Backbone.Collection.extend(
+  model: App.Models.Tag
+  url: "/api/v1/tags"
 )

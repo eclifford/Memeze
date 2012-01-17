@@ -1,16 +1,28 @@
 (function() {
   var Settings, UserManager, bootApplication, bootControllers, bootDepedencies, cluster, everyauth, express, facebook, fs, path, settings, stylus;
+
   fs = require('fs');
+
   express = require('express');
+
   cluster = require('cluster');
+
   everyauth = require('everyauth');
+
   Settings = require('settings');
+
   settings = new Settings("" + __dirname + "/settings").getEnvironment();
+
   UserManager = require('./models/userManager');
+
   facebook = require('./modules/auth/facebook');
+
   stylus = require('stylus');
+
   path = require('path');
+
   global.nap = require('nap');
+
   nap({
     assets: {
       js: {
@@ -20,10 +32,11 @@
         all: ['public/stylesheets/stylus/*']
       },
       jst: {
-        templates: ['app/src/client/templates/post.jade']
+        templates: ['app/src/client/templates/*']
       }
     }
   });
+
   module.exports = function(path) {
     var app;
     app = module.exports = express.createServer();
@@ -32,6 +45,7 @@
     bootDepedencies(app);
     return app.listen(3000);
   };
+
   bootApplication = function(app, path) {
     return app.configure(function() {
       app.set('port', settings.port);
@@ -56,9 +70,7 @@
           return req;
         },
         hasMessages: function(req) {
-          if (!req.session) {
-            return false;
-          }
+          if (!req.session) return false;
           return Object.keys(req.session.flash || {}).length;
         },
         messages: function(req) {
@@ -73,17 +85,18 @@
       });
     });
   };
+
   bootControllers = function(app) {
     return fs.readdir(__dirname + '/controllers', function(err, files) {
-      if (err) {
-        throw err;
-      }
+      if (err) throw err;
       return files.forEach(function(file) {
         return require(("" + __dirname + "/controllers/") + file)(app);
       });
     });
   };
+
   bootDepedencies = function(app) {
     return everyauth.helpExpress(app);
   };
+
 }).call(this);

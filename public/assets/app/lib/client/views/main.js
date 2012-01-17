@@ -1,4 +1,5 @@
 (function() {
+
   window.AppView = Backbone.View.extend({
     el: "html",
     events: {
@@ -90,4 +91,5 @@
       return $("#instagramapp").append(view.render().el);
     }
   });
+
 }).call(this);

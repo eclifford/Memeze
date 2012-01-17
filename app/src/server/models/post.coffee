@@ -9,7 +9,7 @@ PostSchema = new Schema
 	body: String
 	comments: [CommentSchema]
 	votes: [VoteSchema]
-	tags: [String]
+	tags: [{type: Schema.ObjectId, ref: 'Tag'}]
 	dateCreated: {type: Date, default: Date.now()}
 	dateUpdated: {type: Date, default: Date.now()}
 	user: {type: Schema.ObjectId, ref: 'User'}

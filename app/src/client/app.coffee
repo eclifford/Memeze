@@ -1,5 +1,5 @@
 window.App = {}
-App.Routers = {}
+App.Routes = {}
 App.Models = {}
 App.Collections = {}
 App.Views = {}

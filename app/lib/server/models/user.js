@@ -1,12 +1,20 @@
 (function() {
   var Schema, UserSchema, mongoose;
+
   mongoose = require('mongoose');
+
   Schema = mongoose.Schema;
+
   UserSchema = new mongoose.Schema({
     name: String,
     email: String,
     password: String,
-    tags: [String],
+    tags: [
+      {
+        type: Schema.ObjectId,
+        ref: 'Tag'
+      }
+    ],
     facebookId: String,
     facebookToken: String,
     dateCreated: {
@@ -23,5 +31,7 @@
       "default": 'user'
     }
   });
+
   module.exports.UserSchema = UserSchema;
+
 }).call(this);

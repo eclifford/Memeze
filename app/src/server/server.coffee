@@ -31,7 +31,7 @@ nap
       ]
     jst:
       templates: [
-        'app/src/client/templates/post.jade'
+        'app/src/client/templates/*'
       ]
 
 

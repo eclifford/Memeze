@@ -5,7 +5,7 @@ UserSchema = new mongoose.Schema
 	name: String
 	email: String
 	password: String
-	tags: [String]
+	tags: [{type: Schema.ObjectId, ref: 'Tag'}]
 	facebookId: String
 	facebookToken: String
 	dateCreated: {type: Date, default: Date.now()}

@@ -1,4 +1,24 @@
 div.post
-	img(src='http://graph.facebook.com/#{user.facebookId}/picture')
-	= title
-	= body
+	img.left(src='http://graph.facebook.com/#{data.user.facebookId}/picture')
+	a(href='#show/#{data._id}')
+		h1= data.title
+	span
+		| by #{data.user.name} 15 minutes ago
+
+div.tags
+	ul.tags
+		each tag in data.tags
+			li= tag.name
+div(style='clear: both')
+
+- if (showComments)
+	div.body
+		p!= data.body
+
+	div.reply
+			p
+				label(for='comment_body') Comment
+			p
+				textarea#txtComment(rows='5', name='comment[body]', value='', style='width: 400px')
+			p
+				input#btnAddComment(type='button', value='Add Comment')

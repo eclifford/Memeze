@@ -1,17 +1,13 @@
 (function() {
-  var CommentSchema, Schema, mongoose;
+  var Schema, TagSchema, mongoose;
 
   mongoose = require('mongoose');
 
   Schema = mongoose.Schema;
 
-  CommentSchema = new Schema({
-    body: String,
-    comments: [CommentSchema],
-    user: {
-      type: Schema.ObjectId,
-      ref: 'User'
-    },
+  TagSchema = new Schema({
+    name: String,
+    count: Number,
     dateCreated: {
       type: Date,
       "default": Date.now()
@@ -22,6 +18,6 @@
     }
   });
 
-  module.exports.CommentSchema = CommentSchema;
+  exports.TagSchema = TagSchema;
 
 }).call(this);

@@ -1,22 +1,45 @@
 App.Views.PostView = Backbone.View.extend(
   className: 'post'
-  displayComments: true
+  displayComments: false
+
+  events: 
+    'click input#btnAddComment': 'addComment'
 
   initialize: ->
-    _.bindAll this, "render" 
-
+    _.bindAll this, "render", 'addComment'
+  
   render: ->
-    $(@el).html window.JST['post'](@model.toJSON())
+    console.log 'PostView render'
 
-    # if @displayComments
-    #   comments = @model.get('comments')
-    #   commentList = new App.Views.CommentListView(
-    #     el: $(@el).find('section.comments')
-    #     collection: comments
-    #   )
-    #   #$(@el).append commentList.render().el
-    # @
+    model = 
+      showComments: @displayComments
+      data: @model.toJSON()
+
+    $(@el).html window.JST['post'](model)
+
+    console.log 'displayingComments', @displayComments
+    if @displayComments
+      $('div#comments').html('')
+      @comments = new App.Collections.Comments()
+      @comments.fetch data:
+        id: @model.get('_id')
+        success: =>
+          console.log 'comments fetch', @comments
+          commentList = new App.Views.CommentListView(
+            el: 'div#comments'
+            collection: @comments
+          )
+
+  addComment: ->
+    console.log 'addComment fired'
+    commentBody = $('textarea#txtComment', @el).val()
+    @comments.create(
+      comment:
+        id: @model.get('_id')
+        body: commentBody
+    )
 )
+
 App.Views.PostNewView = Backbone.View.extend(
   model: new App.Models.Post
   events: 
@@ -39,24 +62,30 @@ App.Views.PostNewView = Backbone.View.extend(
 )
 
 App.Views.PostListView = Backbone.View.extend(
+  displayComments: false
+
   initialize: -> 
     _.bindAll this, 'render'   
     @collection.bind "add", @render
     @collection.bind "reset", @render
+    $("div#comments").html('')
 
   render: ->
     @addAll()
     @
 
   addAll: ->
+    $(@el).html('')
+    $('div#comments').html('')
     _.each @collection.models, (post) =>
       @addOne(post)
 
   addOne: (post) ->
     view = new App.Views.PostView
       model: post
+    view.displayComments = @displayComments
     view.render()
-    $(@el).append(view.el)
+    $(@el).append(view.el) 
 )
 
 App.Views.CommentListView = Backbone.View.extend(
@@ -64,15 +93,26 @@ App.Views.CommentListView = Backbone.View.extend(
   className: 'comments'
 
   initialize: ->
-    @render()
+    _.bindAll this, 'render', 'addAll', 'addOne'
+    @collection.bind "add", @addOne
+    @collection.bind "reset", @render
+
+  addAll: ->
+    console.log 'addAll', @collection.models
+    _.each @collection.models, (comment) =>
+      @addOne(comment)
+
+  addOne: (comment) ->
+    console.log 'addOne', comment
+    view = new App.Views.CommentView
+      model: comment
+    console.log 'el', @el
+    $(@el).append view.render().el
 
   render: ->
-    console.log 'commentListViewRender'
-    _.each @collection, (comment) =>
-      view = new App.Views.CommentView
-        model: comment
-      $(@el).append view.render().el
+    @addAll()
     @
+
 )
 
 App.Views.CommentView = Backbone.View.extend(
@@ -82,6 +122,7 @@ App.Views.CommentView = Backbone.View.extend(
     _.bindAll this, "render"
   
   render: ->
-    $(@el).html window.JST['partials/comment'](@model)
-    this    
+    console.log 'model', @model
+    $(@el).html window.JST['comment'](@model.toJSON())
+    @    
 )

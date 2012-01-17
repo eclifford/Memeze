@@ -1,39 +1,77 @@
-window.TagListView = Backbone.View.extend(
-  el: "ul.tagcloud" 
-  
+App.Views.TagListView = Backbone.View.extend(
+  tagName: 'ul'
+
   initialize: ->
+    _.bindAll this, "render", "addOne"
+    @collection.bind "add", @addOne
+    @collection.bind "reset", @render
 
-    _.bindAll this, "render", "appendItem"
-    @collection = new window.TagList()
-    t = this
-    @collection.fetch
-      success: ->
-        t.render()
+  addAll: ->
+    _.each @collection.models, (tag) =>
+      @addOne(tag)
 
-      failure: ->
-        alert "fail"
+  addOne: (tag) ->
+    view = new App.Views.TagView
+      model: tag
+    $(@el).append view.render().el
 
-    @collection.bind "add", @appendItem
-    @render()
+  toggle: ->
+
 
   render: ->
-    t = this
-    _(@collection.models).each (item, index) ->
-      t.appendItem item
-
-  appendItem: (item) ->
-    view = new TagView(model: item)
-    $(@el).append view.render().el  
+    @addAll()
+    @
 )
 
-window.TagView = Backbone.View.extend(
+App.Views.MyTagListView = Backbone.View.extend(
+  tagName: 'ul'
+
+  initialize: ->
+    _.bindAll this, "render", "addOne"
+    @collection.bind "add", @addOne
+    @collection.bind "reset", @render
+
+  addAll: ->
+    _.each @collection.models, (tag) =>
+      @addOne(tag)
+
+  addOne: (tag) ->
+    view = new App.Views.TagView
+      model: tag
+    $(@el).prepend view.render().el
+
+  toggle: ->
+
+
+  render: ->
+    console.log 'mytaglistview render'
+    @addAll()
+    @
+)
+
+App.Views.TagView = Backbone.View.extend(
   tagName: 'li'
+
+  events: ->
+    "click":      'activate'
+
+  activate: ->
+    console.log 'active'
+    $(@el).toggleClass('active')
+    activeTabs = $('li.active')
+
+    tags = []
+    $('li.active').each (index) ->
+      tags.push($(this).text())
+    
+    window.location.hash = 'tags/' + tags.join()
+    
 
   initialize: ->
     _.bindAll this, "render"
 
   render: ->
-    console.log 'rendering'
     $(@el).html window.JST['tag'](@model.toJSON())
     this
 )
+

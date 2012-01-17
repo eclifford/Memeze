@@ -1,10 +1,21 @@
-div#posts
+div#container.left(style='width: 400px')
+	div#posts
+	div#comments
+
+div.right(style='width: 200px')
+	h2
+		| My Tags
+	ul#myTags.tags
+	div(style='clear: both')
+
+
+	h2 
+		| Popular Tags
+
+	ul#popularTags.tags
+	div(style='clear: both')
 
 script
-	var postList = new App.Collections.Posts();
-	var postListView = new App.Views.PostListView({
-		el: 'div#posts',
-		collection: postList
-	});
-	postList.fetch();
+	new App.Routes.Posts();
+	Backbone.history.start();
 

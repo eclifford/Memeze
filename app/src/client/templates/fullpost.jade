@@ -1,0 +1,22 @@
+div.post
+	img.left(src='http://graph.facebook.com/#{user.facebookId}/picture')
+	h1= title
+	span
+		| by #{user.name} 15 minutes ago
+
+div.tags
+	ul.tags
+		each tag in tags
+			li= tag.name
+div(style='clear: both')
+
+div.body
+	p!= body
+
+div.reply
+		p
+			label(for='comment_body') Comment
+		p
+			textarea#txtComment(rows='10', name='comment[body]', value='', style='width: 300px')
+		p
+			input#btnAddComment(type='button', value='Add Comment')
