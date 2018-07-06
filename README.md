@@ -19,7 +19,7 @@ My goal with this project was to use as many new technologies as possible to mak
 * Preprocessor: [CoffeeScript](http://jashkenas.github.com/coffee-script/)
 * Config [node-settings](https://github.com/mgutz/node-settings)
 * Server-side Testing: [should](https://github.com/visionmedia/should.js) + [vows](http://vowsjs.org/)
-* Client-side Testing [jasmine](http://pivotal.github.com/jasmine/) + [jasmine-jquery](https://github.com/velesin/jasmine-jquery)
+* Client-side Testing [jasmine](https://jasmine.github.io/) + [jasmine-jquery](https://github.com/velesin/jasmine-jquery)
 * Auto compilation/packaging of CoffeeScript, Jade, Stylus, JS, CSS
 
 # Project Structure
